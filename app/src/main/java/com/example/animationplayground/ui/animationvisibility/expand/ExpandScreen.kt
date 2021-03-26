@@ -1,25 +1,22 @@
 package com.example.animationplayground.ui.animationvisibility.expand
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandIn
-import androidx.compose.animation.shrinkOut
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Slider
-import androidx.compose.material.Switch
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.animationplayground.components.animationSpec.AnimationSpecController
 import com.example.animationplayground.components.MyBottomSheetScaffold
+import com.example.animationplayground.components.TextSwitch
+import com.example.animationplayground.util.MyAnimationSpec
 
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
@@ -28,8 +25,10 @@ fun ExpandScreen(
     viewModel: ExpandViewModel,
     navController: NavHostController
 ) {
+    val animationSpec = viewModel.animationSpecFlow.collectAsState()
+
     MyBottomSheetScaffold(
-        title = "Expand  Animation",
+        title = "Expand/shrink Animation",
         navController = navController,
         animate = { viewModel.animate() },
         content = {
@@ -37,43 +36,38 @@ fun ExpandScreen(
                 modifier = Modifier.align(Alignment.Center),
                 visible = viewModel.animationState,
                 enter = expandIn(
-                    animationSpec = tween(
-                        durationMillis = viewModel.durationMillis
-                    ),
+                    animationSpec = MyAnimationSpec(animationSpec.value).finiteAnimationSpec(),
                     clip = viewModel.clip
                 ),
                 exit = shrinkOut(
-                    animationSpec = tween(
-                        durationMillis = viewModel.durationMillis
-                    ),
+                    animationSpec = MyAnimationSpec(animationSpec.value).finiteAnimationSpec(),
                     clip = viewModel.clip
                 )
             ) {
-                Text(
-                    text = "Text",
-                    fontSize = 60.sp
-                )
+                Canvas(modifier = Modifier.size(70.dp)) {
+                    drawRect(color = Color.Black)
+                }
             }
         },
         sheetContent = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 40.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(horizontal = 25.dp, vertical = 40.dp)
+                    .verticalScroll(rememberScrollState())
+                    .animateContentSize(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text(text = "Duration in Millis")
-                Slider(
-                    value = viewModel.durationMillis.toFloat(),
-                    onValueChange = { viewModel.durationMillis = it.toInt() },
-                    valueRange = 0f..3000f
+
+                AnimationSpecController(
+                    spec = animationSpec.value,
+                    update = { viewModel.update(it) }
                 )
 
-                Text(text = "Clip")
-                Switch(
+                TextSwitch(
+                    text = "Clip",
                     checked = viewModel.clip,
-                    onCheckedChange = { viewModel.clip = it }
+                    onCheckedChanged = { viewModel.clip = it }
                 )
             }
         }
