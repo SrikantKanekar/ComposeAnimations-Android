@@ -21,7 +21,9 @@ import com.example.animationplayground.ui.animationvisibility.fade.FadeScreen
 import com.example.animationplayground.ui.animationvisibility.fade.FadeViewModel
 import com.example.animationplayground.ui.crossfade.CrossFadeScreen
 import com.example.animationplayground.ui.crossfade.CrossFadeViewModel
-import com.example.animationplayground.ui.home.HomeScreen
+import com.example.animationplayground.ui.gestures.GesturesScreen
+import com.example.animationplayground.ui.gestures.SwipeToDismissScreen
+import com.example.animationplayground.ui.gestures.TransformableScreen
 import com.example.animationplayground.ui.infiniteTransition.InfiniteTransitionScreen
 import com.example.animationplayground.ui.infiniteTransition.InfiniteTransitionViewModel
 import com.example.animationplayground.ui.updateTransition.UpdateTransitionScreen
@@ -86,6 +88,15 @@ class MainActivity : AppCompatActivity() {
                             viewModel = viewModel,
                             navController = navController
                         )
+                    }
+                    composable(route = "GestureScreen") {
+                        GesturesScreen(navController = navController)
+                    }
+                    composable(route = "SwipeToDismissScreen") {
+                        SwipeToDismissScreen(navController = navController)
+                    }
+                    composable(route = "TransformableScreen") {
+                        TransformableScreen(navController = navController)
                     }
                 }
             }

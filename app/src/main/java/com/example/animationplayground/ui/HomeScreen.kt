@@ -1,9 +1,11 @@
-package com.example.animationplayground.ui.home
+package com.example.animationplayground.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -25,7 +27,8 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 40.dp),
+                .padding(horizontal = 16.dp, vertical = 40.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -49,6 +52,15 @@ fun HomeScreen(
             }
             HomeButton(text = "InfiniteTransitionScreen") {
                 navController.navigate("InfiniteTransitionScreen")
+            }
+            HomeButton(text = "GestureScreen") {
+                navController.navigate("GestureScreen")
+            }
+            HomeButton(text = "SwipeToDismissScreen") {
+                navController.navigate("SwipeToDismissScreen")
+            }
+            HomeButton(text = "TransformableScreen") {
+                navController.navigate("TransformableScreen")
             }
         }
     }
