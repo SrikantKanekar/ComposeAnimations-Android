@@ -2,7 +2,9 @@ package com.example.animationplayground.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
 import com.example.animationplayground.components.HomeButton
 
 @Composable
@@ -27,11 +28,14 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 40.dp)
+                .padding(it)
+                .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(10.dp))
+
             HomeButton(text = "FadeScreen") {
                 navController.navigate("FadeScreen")
             }
@@ -62,6 +66,8 @@ fun HomeScreen(
             HomeButton(text = "TransformableScreen") {
                 navController.navigate("TransformableScreen")
             }
+
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }
